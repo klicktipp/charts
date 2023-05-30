@@ -1,3 +1,8 @@
+---
+{{- $env := $.Values.env }}
+{{- if .env }}
+  {{- $env = concat $env .env }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -47,6 +52,8 @@ spec:
           #   initialDelaySeconds: 5
           #   periodSeconds: 5
           #   failureThreshold: 1
+          env:
+            {{- toYaml $env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
