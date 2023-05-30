@@ -1,8 +1,4 @@
 ---
-{{- $env := $.Values.env }}
-{{- if .env }}
-  {{- $env = concat $env .env }}
-{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -61,7 +57,6 @@ spec:
               value: {{ .Values.redisinsight.home_dir | quote }}
             - name: RILOGDIR
               value: {{ .Values.redisinsight.log_dir | quote }}
-            {{- toYaml $env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
