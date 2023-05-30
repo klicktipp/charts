@@ -43,22 +43,30 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.redisinsight.port }}
               protocol: TCP
           # livenessProbe:
           #   httpGet:
           #     path: /healthcheck/
-          #     port: 8001
+          #     port: {{ .Values.redisinsight.port }}
           #   initialDelaySeconds: 5
           #   periodSeconds: 5
           #   failureThreshold: 1
           env:
+            - name: RIHOST
+              value: {{ .Values.redisinsight.host | quote }}
+            - name: RIPORT
+              value:  {{ .Values.redisinsight.port | quote }}
+            - name: RIHOMEDIR
+              value: {{ .Values.redisinsight.home_dir }}
+            - name: RILOGDIR
+              value: {{ .Values.redisinsight.log_dir }}
             {{- toYaml $env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: db
-              mountPath: /db
+              mountPath: {{ .Values.redisinsight.home_dir }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
