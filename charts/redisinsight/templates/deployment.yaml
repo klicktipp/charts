@@ -56,11 +56,11 @@ spec:
             - name: RIHOST
               value: {{ .Values.redisinsight.host | quote }}
             - name: RIPORT
-              value:  {{ .Values.redisinsight.port | quote }}
+              value: {{ .Values.redisinsight.port | quote }}
             - name: RIHOMEDIR
-              value: {{ .Values.redisinsight.home_dir }}
+              value: {{ .Values.redisinsight.home_dir | quote }}
             - name: RILOGDIR
-              value: {{ .Values.redisinsight.log_dir }}
+              value: {{ .Values.redisinsight.log_dir | quote }}
             {{- toYaml $env | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
