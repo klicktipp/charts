@@ -76,4 +76,19 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/cronjobs-0.2.2/cronjobs-0.2.2.tgz
     version: 0.2.2
-generated: "2023-05-16T20:50:47.540769437Z"
+  redisinsight:
+  - apiVersion: v2
+    appVersion: 1.14.0
+    created: "2023-05-30T08:26:19.070061773Z"
+    description: RedisInsight - The GUI for Redis
+    digest: f59ec7e5461f5e1a985a36eb527c6b39ea5e091f8a2ed2593fee2a1130d27535
+    home: https://redis.com/redis-enterprise/redis-insight/
+    keywords:
+    - redis
+    - gui
+    name: redisinsight
+    type: application
+    urls:
+    - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.2.0/redisinsight-0.2.0.tgz
+    version: 0.2.0
+generated: "2023-05-30T08:26:19.070077274Z"
