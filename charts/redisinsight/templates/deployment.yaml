@@ -41,13 +41,20 @@ spec:
             - name: http
               containerPort: {{ .Values.redisinsight.port }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthcheck/
-          #     port: {{ .Values.redisinsight.port }}
-          #   initialDelaySeconds: 5
-          #   periodSeconds: 5
-          #   failureThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /healthcheck/
+              port: {{ .Values.redisinsight.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthcheck/
+              port: {{ .Values.redisinsight.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 1
           # Env Vars:
           #   ref: https://docs.redis.com/latest/ri/installing/configurations/
           env:
