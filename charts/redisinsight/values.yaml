@@ -87,3 +87,14 @@ redisinsight:
   trusted_origins: []
   home_dir: "/db"
   log_dir: "/db"
+  redis_servers: []
+#    - host: redis
+#      port: 6379
+#      name: redis-server-alias
+#      password: s3cr3t
+#      connectionType: STANDALONE
+#      tls:
+#        useTls: true
+#        clientAuth: false
+#        verifyServerCert: false
+

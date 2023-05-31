@@ -61,6 +61,31 @@ spec:
               value: {{ .Values.redisinsight.log_dir | quote }}
             - name: RITRUSTEDORIGINS
               value: {{ join "," .Values.redisinsight.trusted_origins | quote }}
+          {{- if .Values.redisinsight.redis_servers }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - "sh"
+                - "-c"
+                - |
+                  {{- range .Values.redisinsight.redis_servers }}
+                  curl -s -v -X "POST" "http://localhost:${RIPORT}/api/instance/"
+                  -H "Content-Type: application/json; charset=utf-8"
+                  -d '{
+                    "host": "{{ .host }}",
+                    "port": {{ .port }},
+                    "password": "{{ .password }}",
+                    "name": "{{ .name }}",
+                    "connectionType": "{{ .connectionType }}",
+                    "tls": {
+                      "useTls": {{ .tls.useTls }},
+                      "clientAuth": {{ .tls.clientAuth }},
+                      "verifyServerCert": {{ .tls.verifyServerCert }}
+                    }
+                  }'
+                  {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
