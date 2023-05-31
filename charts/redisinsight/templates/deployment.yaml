@@ -48,6 +48,8 @@ spec:
           #   initialDelaySeconds: 5
           #   periodSeconds: 5
           #   failureThreshold: 1
+          # Env Vars:
+          #   ref: https://docs.redis.com/latest/ri/installing/configurations/
           env:
             - name: RIHOST
               value: {{ .Values.redisinsight.host | quote }}
@@ -57,6 +59,8 @@ spec:
               value: {{ .Values.redisinsight.home_dir | quote }}
             - name: RILOGDIR
               value: {{ .Values.redisinsight.log_dir | quote }}
+            - name: RITRUSTEDORIGINS
+              value: {{ join "," .Values.redisinsight.trusted_origins | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

@@ -84,5 +84,6 @@ affinity: {}
 redisinsight:
   host: "0.0.0.0"
   port: 8001
+  trusted_origins: []
   home_dir: "/db"
   log_dir: "/db"
