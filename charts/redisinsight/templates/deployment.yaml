@@ -75,8 +75,12 @@ spec:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - >-
-                    sleep 5s;
+                  - |
+                    sleep 2s;
+                    until $(curl --output /dev/null --silent --head --fail http://127.0.0.1:${RIPORT}//healthcheck/); do
+                        printf '.'
+                        sleep .5 # 500 ms
+                    done;
                     {{- range .Values.redisinsight.redis_servers }}
                     curl -s -v -X POST http://127.0.0.1:${RIPORT}/api/instance/ -H 'Content-Type: application/json' -d '{{ . | toJson }}';
                     {{- end }}
