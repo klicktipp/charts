@@ -88,13 +88,15 @@ redisinsight:
   home_dir: "/db"
   log_dir: "/db"
   redis_servers: []
-#    - host: redis
-#      port: 6379
-#      name: redis-server-alias
-#      password: s3cr3t
+#    # Adding Redis Databases Programmatically
+#    #  ref: https://docs.redis.com/latest/ri/using-redisinsight/api/
+#    - name: redis-server-alias
 #      connectionType: STANDALONE
-#      tls:
-#        useTls: true
-#        clientAuth: false
-#        verifyServerCert: false
-
+#      host: redis
+#      port: 6379
+#      password: s3cr3t
+#    - name: redis-cluster
+#      connectionType: CLUSTER
+#      seedNodes:
+#        - host: redis-store.aaaaaaaa.clustercfg.AZ1.cache.amazonaws.com
+#          port: 6379
