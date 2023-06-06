@@ -79,6 +79,20 @@ entries:
   redisinsight:
   - apiVersion: v2
     appVersion: 1.14.0
+    created: "2023-06-06T07:18:26.923851686Z"
+    description: RedisInsight - The GUI for Redis
+    digest: 92888820380f67fa76ac29afda4dda2d9ce8682e647d12058d6e0c13957d0d5b
+    home: https://redis.com/redis-enterprise/redis-insight/
+    keywords:
+    - redis
+    - gui
+    name: redisinsight
+    type: application
+    urls:
+    - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.4.0/redisinsight-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 1.14.0
     created: "2023-05-30T08:26:19.070061773Z"
     description: RedisInsight - The GUI for Redis
     digest: f59ec7e5461f5e1a985a36eb527c6b39ea5e091f8a2ed2593fee2a1130d27535
@@ -91,4 +105,4 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.2.0/redisinsight-0.2.0.tgz
     version: 0.2.0
-generated: "2023-05-30T08:26:19.070077274Z"
+generated: "2023-06-06T07:18:26.923871087Z"
