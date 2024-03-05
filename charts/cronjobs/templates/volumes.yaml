@@ -1,9 +1,8 @@
-{{- $chart_name := include "cronjobs.fullname" . }}
+---
 {{- range $job_name, $job := .Values.jobs }}
 {{- range $volume := .volumes }}
 {{- $PV_NAME := include "kt.slugify-volume-name" (list $.Release.Namespace $.Release.Name $job_name .name) }}
 {{- $PVC_NAME := include "kt.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
