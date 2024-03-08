@@ -83,6 +83,14 @@ jobs: {}
 #        #       mount_dest: /var/bar
 #        #       id: fsap-1232345678
 #        #       #name: foo # [OPTIONAL]
+#    extraFiles: {}
+#     # myscript.sh:
+#       # mountPath: "/usr/local/bin/myscript.sh"
+#       # enabled: true
+#       # mode: "0755"
+#       # content: |
+#       #   #!/bin/bash
+#       #   echo "Hello from script"
 
 serviceAccount:
   # Specifies whether a service account should be created

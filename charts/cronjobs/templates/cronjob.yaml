@@ -103,6 +103,16 @@ spec:
                   mountPath: {{ required "ERROR: the EFS mount point requires a mount_dest." $efs_ap.mount_dest }}
                 {{- end }} {{/* # end range $efs_ap */}}
                 {{- end }} {{/* # end range $efs_mount */}}
+                {{- if and (hasKey $job "extraFiles") $job.extraFiles }}
+                {{- range $filename, $file := $job.extraFiles }}
+                {{- if $file.enabled }}
+                - name: cronjob-files
+                  mountPath: '{{ $file.mountPath }}'
+                  subPath: '{{ $filename }}'
+                  readOnly: true
+                {{- end }}
+                {{- end }} {{/* # end range extraFiles */}}
+                {{- end }} {{/* # end exists extraFiles */}}
                 {{- if $.Values.customConfigMap }}
                 - mountPath: /configMaps/{{ $.Values.customConfigMap }}
                   name: {{ $.Values.customConfigMap }}
@@ -136,6 +146,19 @@ spec:
                 claimName: {{ $PVC_NAME }}
             {{- end }} {{/* # end range $efs_ap */}}
             {{- end }} {{/* # end range $efs_mount */}}
+            {{- if and (hasKey $job "extraFiles") $job.extraFiles }}
+            - name: cronjob-files
+              configMap:
+                name: {{ include "com.klicktipp.slugify-volume-name" (list $chart_name "files" $job_name) }}
+                items:
+                {{- range $filename, $file := $job.extraFiles }}
+                  {{- if $file.enabled }}
+                  - key: '{{ $filename }}'
+                    path: '{{ $filename }}'
+                    mode: {{ ($file.mode | default "0644") | toDecimal }}
+                  {{- end }}
+                {{- end }} {{/* # end range extraFiles */}}
+            {{- end }} {{/* # end exists extraFiles */}}
             {{- if $.Values.customConfigMap }}
             - name: {{ $.Values.customConfigMap }}
               configMap:
