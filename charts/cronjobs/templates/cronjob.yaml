@@ -96,11 +96,11 @@ spec:
               resources:
                 {{- toYaml $.Values.resources | nindent 16 }}
               volumeMounts:
-                {{- range $job_name, $job := $.Values.jobs }}
-                {{- range $volume := $job.volumes.mounts }}
-                {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
+                {{- range $efs_mount := $job.storage.efs.mounts }}
+                {{- range $efs_ap := $efs_mount.access_points }}
+                {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce $efs_ap.name $efs_ap.path) $efs_ap.id) }}
                 - name: {{ $PVC_NAME }}
-                  mountPath: {{ required "ERROR: the volume mount requires a mount_path." .mount_dest }}
+                  mountPath: {{ required "ERROR: the EFS mount point requires a mount_dest." $efs_ap.mount_dest }}
                 {{- end }} {{/* # end range $efs_ap */}}
                 {{- end }} {{/* # end range $efs_mount */}}
                 {{- if $.Values.customConfigMap }}
@@ -128,9 +128,9 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumes:
-            {{- range $job_name, $job := $.Values.jobs }}
-            {{- range $volume := $job.volumes.mounts }}
-            {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
+            {{- range $efs_mount := $job.storage.efs.mounts }}
+            {{- range $efs_ap := $efs_mount.access_points }}
+            {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce $efs_ap.name $efs_ap.path) $efs_ap.id) }}
             - name: {{ $PVC_NAME }}
               persistentVolumeClaim:
                 claimName: {{ $PVC_NAME }}

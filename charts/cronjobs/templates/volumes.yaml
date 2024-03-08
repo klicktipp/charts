@@ -1,16 +1,20 @@
 ---
 {{- range $job_name, $job := .Values.jobs }}
-{{- range $volume := $job.volumes.mounts }}
-{{- $PV_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Namespace $.Release.Name $job_name .name) }}
-{{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
+{{- range $efs_mount := $job.storage.efs.mounts }}
+{{- range $efs_ap := $efs_mount.access_points }}
+{{- $PV_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Namespace $.Release.Name $efs_ap.id) }}
+{{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce $efs_ap.name $efs_ap.path) $efs_ap.id) }}
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: {{ $PV_NAME }}
   annotations:
-    helm.sh/hook-weight: "-10"
-    {{- with $job.volumes.annotations }}
+    storage.ktsys.cloud/efs_fs_id: {{ $efs_mount.fs_id | quote }}
+    storage.ktsys.cloud/efs_name: {{ $efs_mount.fs_name | quote }}
+    storage.ktsys.cloud/efs_ap_id: {{ $efs_ap.id | quote }}
+    storage.ktsys.cloud/efs_path: {{ $efs_ap.path | quote }}
+    {{- with $efs_mount.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
@@ -20,11 +24,10 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Delete
-  storageClassName: {{ .storageClass | default $job.volumes.storageClass }}
+  storageClassName: {{ $job.storage.efs.storageClass }}
   csi:
-    {{- with .csi }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    driver: efs.csi.aws.com
+    volumeHandle: {{ $efs_mount.fs_id }}::{{ $efs_ap.id }}
 
 ---
 apiVersion: v1
@@ -32,18 +35,22 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ $PVC_NAME }}
   annotations:
-    helm.sh/hook-weight: "-5"
-    {{- with $job.volumes.annotations }}
+    storage.ktsys.cloud/efs_fs_id: {{ $efs_mount.fs_id | quote }}
+    storage.ktsys.cloud/efs_name: {{ $efs_mount.fs_name | quote }}
+    storage.ktsys.cloud/efs_ap_id: {{ $efs_ap.id | quote }}
+    storage.ktsys.cloud/efs_path: {{ $efs_ap.path | quote }}
+    {{- with $efs_mount.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .storageClass | default $job.volumes.storageClass }}
+  storageClassName: {{ $job.storage.efs.storageClass }}
   volumeName: {{ $PV_NAME }}
   resources:
     requests:
       storage: 5Gi  # Any number will do, we are just required to specify a storage capacity
 
+{{- end }} {{/* # end range $efs_ap */}}
+{{- end }} {{/* # end range $efs_mount */}}
 {{- end }} {{/* # end range volumes */}}
-{{- end }} {{/* # end range jobs */}}

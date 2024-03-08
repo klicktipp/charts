@@ -72,16 +72,17 @@ jobs: {}
 #    # parallelism: 1
 #    # ttlSecondsAfterFinished: 60
 #    # suspend: false
-#    # volumes:
-#    #   annotations: {}
-#    #   storageClass: efs
-#    #   mounts:
-#    #     - name: docker1
-#    #       mount_dest: /var/
-#    #       storageClass: efs
-#    #       csi:
-#    #         driver: efs.csi.aws.com
-#    #         volumeHandle: {{ $efs_fs_id }}::{{ $efs_ap.id }}
+#    # storage:
+#    #   efs:
+#    #     storageClass: kt-efs-sc
+#    #     mounts: []
+#    #     # - fs_name: <aws-efs-filesystem-name>
+#    #     #   fs_id: fs-1111111111
+#    #     #   access_points:
+#    #     #     - path: /foo/bar
+#    #     #       mount_dest: /var/bar
+#    #     #       id: fsap-1232345678
+#    #     #       #name: foo # [OPTIONAL]
 
 serviceAccount:
   # Specifies whether a service account should be created
