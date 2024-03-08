@@ -64,25 +64,25 @@ jobs: {}
 #    image:
 #      repository: alpine
 #    # see https://github.com/kubernetes/kubernetes/issues/74848#issuecomment-475178355
-#    # restartPolicy: Never
-#    # startingDeadlineSeconds: 60
-#    # activeDeadlineSeconds: 60
-#    # backoffLimit: 3
-#    # completions: 3
-#    # parallelism: 1
-#    # ttlSecondsAfterFinished: 60
-#    # suspend: false
-#    # storage:
-#    #   efs:
-#    #     storageClass: kt-efs-sc
-#    #     mounts: []
-#    #     # - fs_name: <aws-efs-filesystem-name>
-#    #     #   fs_id: fs-1111111111
-#    #     #   access_points:
-#    #     #     - path: /foo/bar
-#    #     #       mount_dest: /var/bar
-#    #     #       id: fsap-1232345678
-#    #     #       #name: foo # [OPTIONAL]
+#    restartPolicy: Never
+#    startingDeadlineSeconds: 60
+#    activeDeadlineSeconds: 60
+#    backoffLimit: 3
+#    completions: 3
+#    parallelism: 1
+#    ttlSecondsAfterFinished: 60
+#    suspend: false
+#    storage:
+#      efs:
+#        storageClass: kt-efs-sc
+#        mounts: []
+#        # - fs_name: <aws-efs-filesystem-name>
+#        #   fs_id: fs-1111111111
+#        #   access_points:
+#        #     - path: /foo/bar
+#        #       mount_dest: /var/bar
+#        #       id: fsap-1232345678
+#        #       #name: foo # [OPTIONAL]
 
 serviceAccount:
   # Specifies whether a service account should be created
