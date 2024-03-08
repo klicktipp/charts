@@ -73,16 +73,15 @@ jobs: {}
 #    # ttlSecondsAfterFinished: 60
 #    # suspend: false
 #    # volumes:
-#    #   - name: docker1
-#    #     hostPath:
-#    #       path: /var/
-#    #     storageClass: efs
-#    #     csi:
-#    #       driver: efs.csi.aws.com
-#    #       volumeHandle: {{ $efs_fs_id }}::{{ $efs_ap.id }}
-#    # volumeMounts:
-#    #   - name: docker1
-#    #     mountPath: /var/
+#    #   annotations: {}
+#    #   storageClass: efs
+#    #   mounts:
+#    #     - name: docker1
+#    #       mount_dest: /var/
+#    #       storageClass: efs
+#    #       csi:
+#    #         driver: efs.csi.aws.com
+#    #         volumeHandle: {{ $efs_fs_id }}::{{ $efs_ap.id }}
 
 serviceAccount:
   # Specifies whether a service account should be created

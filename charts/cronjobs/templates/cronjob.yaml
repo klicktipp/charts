@@ -96,11 +96,13 @@ spec:
               resources:
                 {{- toYaml $.Values.resources | nindent 16 }}
               volumeMounts:
-                {{- range .volumeMounts }}
-                  {{- $PVC_NAME := include "kt.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
+                {{- range $job_name, $job := $.Values.jobs }}
+                {{- range $volume := $job.volumes.mounts }}
+                {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
                 - name: {{ $PVC_NAME }}
-                  mountPath: {{ .mountPath }}
-                {{- end }}
+                  mountPath: {{ required "ERROR: the volume mount requires a mount_path." .mount_dest }}
+                {{- end }} {{/* # end range $efs_ap */}}
+                {{- end }} {{/* # end range $efs_mount */}}
                 {{- if $.Values.customConfigMap }}
                 - mountPath: /configMaps/{{ $.Values.customConfigMap }}
                   name: {{ $.Values.customConfigMap }}
@@ -126,12 +128,14 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           volumes:
-            {{- range .volumes }}
-            {{- $PVC_NAME := include "kt.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
+            {{- range $job_name, $job := $.Values.jobs }}
+            {{- range $volume := $job.volumes.mounts }}
+            {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce .claimName  .name)) }}
             - name: {{ $PVC_NAME }}
               persistentVolumeClaim:
                 claimName: {{ $PVC_NAME }}
-            {{- end }}
+            {{- end }} {{/* # end range $efs_ap */}}
+            {{- end }} {{/* # end range $efs_mount */}}
             {{- if $.Values.customConfigMap }}
             - name: {{ $.Values.customConfigMap }}
               configMap:
