@@ -76,11 +76,11 @@ spec:
           serviceAccountName: {{ $service_account_name }}
           {{- end }}
           securityContext:
-            {{- toYaml $.Values.podSecurityContext | nindent 12 }}
+            {{- toYaml ($job.podSecurityContext | default $.Values.podSecurityContext) | nindent 12 }}
           containers:
             - name: {{ $job_name }}
               securityContext:
-                {{- toYaml $.Values.securityContext | nindent 16 }}
+                {{- toYaml ($job.securityContext | default $.Values.securityContext) | nindent 16 }}
               image: {{ $image }}
               imagePullPolicy: {{ $.Values.image.pullPolicy }}
               {{- if .command }}
