@@ -6,10 +6,7 @@
 {{- $image_pull_secrets := .Values.imagePullSecrets }}
 {{- range $job_name, $job := .Values.jobs }}
 {{- $JOB_NAME_SLUG := include "com.klicktipp.slugify-volume-name" $job_name }}
-{{- $env := $.Values.env }}
-{{- if .env }}
-  {{- $env = concat $env .env }}
-{{- end }}
+{{- $env := mergeOverwrite dict $.Values.env ($job.env | default dict) }}
 {{- $checksum := toYaml . | sha256sum | trunc 20 | quote }}
 ---
 apiVersion: {{ $api_version }}
@@ -86,7 +83,10 @@ spec:
                 {{- toYaml . | nindent 16 }}
               {{- end }}
               env:
-                {{- toYaml $env | nindent 16 }}
+                {{- range $key, $value := $env}}
+                - name: {{ $key }}
+                  value: {{ $value | quote }}
+                {{- end }}
               resources:
                 {{- toYaml $.Values.resources | nindent 16 }}
               volumeMounts:

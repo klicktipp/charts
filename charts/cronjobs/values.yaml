@@ -44,7 +44,7 @@ configMaps: {}
 #      example.sh: ci/files/example.sh
 
 # environment variables for all jobs
-env: []
+env: {}
 
 jobs: {}
 #  test:
