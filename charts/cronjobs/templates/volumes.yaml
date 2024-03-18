@@ -2,8 +2,9 @@
 {{- range $job_name, $job := .Values.jobs }}
 {{- range $efs_mount := $job.storage.efs.mounts }}
 {{- range $efs_ap := $efs_mount.access_points }}
-{{- $PV_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Namespace $.Release.Name $efs_ap.id) }}
-{{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name (coalesce $efs_ap.name $efs_ap.path) $efs_ap.id) }}
+{{- $EFS_AP_ID_TRIMMED := trimPrefix "fsap-" $efs_ap.id }}
+{{- $PV_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Namespace $.Release.Name $job_name $EFS_AP_ID_TRIMMED) }}
+{{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name $job_name (coalesce $efs_ap.name $efs_ap.path) $EFS_AP_ID_TRIMMED) }}
 ---
 apiVersion: v1
 kind: PersistentVolume
