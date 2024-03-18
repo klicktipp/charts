@@ -5,6 +5,7 @@
 {{- $service_account_name := include "cronjobs.serviceAccountName" . }}
 {{- $image_pull_secrets := .Values.imagePullSecrets }}
 {{- range $job_name, $job := .Values.jobs }}
+{{- $JOB_NAME_SLUG := include "com.klicktipp.slugify-volume-name" $job_name }}
 {{- $env := $.Values.env }}
 {{- if .env }}
   {{- $env = concat $env .env }}
@@ -14,7 +15,7 @@
 apiVersion: {{ $api_version }}
 kind: CronJob
 metadata:
-  name: {{ $chart_name }}-{{ $job_name }}
+  name: {{ $chart_name }}-{{ $JOB_NAME_SLUG }}
   labels:
     {{- $chart_labels | nindent 4 }}
   annotations:
@@ -71,7 +72,7 @@ spec:
           securityContext:
             {{- toYaml ($job.podSecurityContext | default $.Values.podSecurityContext) | nindent 12 }}
           containers:
-            - name: {{ $job_name }}
+            - name: {{ $JOB_NAME_SLUG }}
               securityContext:
                 {{- toYaml ($job.securityContext | default $.Values.securityContext) | nindent 16 }}
               image: "{{ $job.image.repository }}:{{ $job.image.tag | default $.Chart.AppVersion }}"
@@ -92,7 +93,7 @@ spec:
                 {{- range $efs_mount := $job.storage.efs.mounts }}
                 {{- range $efs_ap := $efs_mount.access_points }}
                 {{- $EFS_AP_ID_TRIMMED := trimPrefix "fsap-" $efs_ap.id }}
-                {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name $job_name (coalesce $efs_ap.name $efs_ap.path) $EFS_AP_ID_TRIMMED) }}
+                {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name $JOB_NAME_SLUG (coalesce $efs_ap.name $efs_ap.path) $EFS_AP_ID_TRIMMED) }}
                 - name: {{ $PVC_NAME }}
                   mountPath: {{ required "ERROR: the EFS mount point requires a mount_dest." $efs_ap.mount_dest }}
                 {{- end }} {{/* # end range $efs_ap */}}
@@ -135,7 +136,7 @@ spec:
             {{- range $efs_mount := $job.storage.efs.mounts }}
             {{- range $efs_ap := $efs_mount.access_points }}
             {{- $EFS_AP_ID_TRIMMED := trimPrefix "fsap-" $efs_ap.id }}
-            {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name $job_name (coalesce $efs_ap.name $efs_ap.path) $EFS_AP_ID_TRIMMED) }}
+            {{- $PVC_NAME := include "com.klicktipp.slugify-volume-name" (list $.Release.Name $JOB_NAME_SLUG (coalesce $efs_ap.name $efs_ap.path) $EFS_AP_ID_TRIMMED) }}
             - name: {{ $PVC_NAME }}
               persistentVolumeClaim:
                 claimName: {{ $PVC_NAME }}
@@ -144,7 +145,7 @@ spec:
             {{- if and (hasKey $job "extraFiles") $job.extraFiles }}
             - name: cronjob-files
               configMap:
-                name: {{ include "com.klicktipp.slugify-volume-name" (list $chart_name "files" $job_name) }}
+                name: {{ include "com.klicktipp.slugify-volume-name" (list $chart_name "files" $JOB_NAME_SLUG) }}
                 items:
                 {{- range $filename, $file := $job.extraFiles }}
                   {{- if $file.enabled }}
