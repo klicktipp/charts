@@ -3,15 +3,8 @@
 {{- $chart_labels := include "cronjobs.labels" . }}
 {{- $chart_selector_labels := include "cronjobs.selectorLabels" . }}
 {{- $service_account_name := include "cronjobs.serviceAccountName" . }}
-{{- $registry := .Values.image.registry }}
-{{- $tag := .Values.image.tag | default .Chart.AppVersion }}
 {{- $image_pull_secrets := .Values.imagePullSecrets }}
-
 {{- range $job_name, $job := .Values.jobs }}
-{{- $image := print $registry "/" $.Values.image.repository ":" $tag }}
-{{- if .image }}
-  {{- $image = print (default $registry .image.registry) "/" .image.repository ":" (default $tag .image.tag) }}
-{{- end }}
 {{- $env := $.Values.env }}
 {{- if .env }}
   {{- $env = concat $env .env }}
@@ -81,8 +74,8 @@ spec:
             - name: {{ $job_name }}
               securityContext:
                 {{- toYaml ($job.securityContext | default $.Values.securityContext) | nindent 16 }}
-              image: {{ $image }}
-              imagePullPolicy: {{ $.Values.image.pullPolicy }}
+              image: "{{ $job.image.repository }}:{{ $job.image.tag | default $.Chart.AppVersion }}"
+              imagePullPolicy: {{ $job.image.pullPolicy }}
               {{- if .command }}
               command:
                 {{- toYaml .command | nindent 16 }}
