@@ -3,7 +3,6 @@
 {{- $chart_labels := include "cronjobs.labels" . }}
 {{- $chart_selector_labels := include "cronjobs.selectorLabels" . }}
 {{- $service_account_name := include "cronjobs.serviceAccountName" . }}
-{{- $image_pull_secrets := .Values.imagePullSecrets }}
 {{- range $job_name, $job := .Values.jobs }}
 {{- $JOB_NAME_SLUG := include "com.klicktipp.slugify-volume-name" $job_name }}
 {{- $env := mergeOverwrite dict $.Values.env ($job.env | default dict) }}
@@ -86,7 +85,7 @@ spec:
                   value: {{ $value | quote }}
                 {{- end }}
               resources:
-                {{- toYaml $.Values.resources | nindent 16 }}
+                {{- toYaml $job.resources | nindent 16 }}
               volumeMounts:
                 {{- range $efs_mount := $job.storage.efs.mounts }}
                 {{- range $efs_ap := $efs_mount.access_points }}
