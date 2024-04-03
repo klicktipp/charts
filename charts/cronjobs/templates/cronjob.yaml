@@ -22,9 +22,7 @@ spec:
   failedJobsHistoryLimit: {{ default 1 .failedJobsHistoryLimit }}
   successfulJobsHistoryLimit: {{ default 1 .successfulJobsHistoryLimit }}
   schedule: {{ .schedule | quote }}
-  {{- if .suspend }}
-  suspend: {{ .suspend }}
-  {{- end }}
+  suspend: {{ .suspend | default false }}
   {{- if .startingDeadlineSeconds }}
   startingDeadlineSeconds: {{ .startingDeadlineSeconds }}
   {{- end }}
@@ -57,10 +55,10 @@ spec:
         spec:
           restartPolicy: {{ default "Never" .restartPolicy }}
           imagePullSecrets:
-          {{- with default $image_pull_secrets .imagePullSecrets }}
+          {{- with ($job.imagePullSecrets | default $.Values.imagePullSecrets) }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if $.Values.dockerConfigJson }}
+          {{- if $job.dockerConfigJson | default $.Values.dockerConfigJson }}
             - name: {{ $chart_name }}-registry
           {{- end }}
           {{- if or $.Values.serviceAccount.create $.Values.serviceAccount.name }}
@@ -120,15 +118,15 @@ spec:
                 - mountPath: /secrets/{{ $job_name }}
                   name: {{ $job_name }}
                 {{- end }}
-          {{- with $.Values.nodeSelector }}
+          {{- with $job.nodeSelector | default $.Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with $.Values.affinity }}
+          {{- with $job.affinity | default $.Values.affinity }}
           affinity:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with $.Values.tolerations }}
+          {{- with $job.tolerations | default $.Values.tolerations }}
           tolerations:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -165,7 +163,7 @@ spec:
               configMap:
                 name: {{ print $chart_name "-" $job_name }}
             {{- end }}
-            {{- range $job_name, $secret := $.Values.secrets }}
+            {{- range $job_name, $secret := $job.secrets | default $.Values.secrets }}
             - name: {{ $job_name }}
               secret:
                 secretName: {{ print $chart_name "-" $job_name }}
