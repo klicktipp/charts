@@ -70,7 +70,7 @@ spec:
               securityContext:
                 {{- toYaml ($job.securityContext | default $.Values.securityContext) | nindent 16 }}
               image: "{{ $job.image.repository }}:{{ $job.image.tag | default $.Chart.AppVersion }}"
-              imagePullPolicy: {{ $job.image.pullPolicy }}
+              imagePullPolicy: {{ $job.image.pullPolicy  | default "IfNotPresent" }}
               {{- if .command }}
               command:
                 {{- toYaml .command | nindent 16 }}
