@@ -9,6 +9,31 @@ entries:
           url: https://hub.docker.com/_/busybox
     apiVersion: v2
     appVersion: latest
+    created: "2024-04-05T09:14:36.276289447Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.2.4
+    description: A generic helm cronjob chart for kubernetes
+    digest: edff378e26bf5c6c6ea8d90cd7879a5e1fdc965d399395791eb90a3d0090751f
+    home: https://github.com/klicktipp/helm-charts
+    keywords:
+    - cronjob
+    name: cronjobs
+    sources:
+    - hhttps://github.com/klicktipp/helm-charts
+    type: application
+    urls:
+    - https://github.com/klicktipp/helm-charts/releases/download/cronjobs-1.1.0/cronjobs-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/links: |
+        - name: Image source
+          url: https://github.com/docker-library/busybox
+        - name: Image DockerHub
+          url: https://hub.docker.com/_/busybox
+    apiVersion: v2
+    appVersion: latest
     created: "2024-04-04T17:51:05.487700423Z"
     dependencies:
     - name: common
@@ -130,4 +155,4 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.2.0/redisinsight-0.2.0.tgz
     version: 0.2.0
-generated: "2024-04-04T17:51:05.487723196Z"
+generated: "2024-04-05T09:14:36.276315305Z"
