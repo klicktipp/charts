@@ -47,16 +47,18 @@ spec:
       {{- end}}
       template:
         metadata:
-          {{- with .podAnnotations }}
           annotations:
+            {{- with .podAnnotations }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- end }}
           labels:
-            {{- $chart_selector_labels | nindent 12 }}
             {{- with $.commonLabels }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
             {{- include "cronjobs.selectorLabels" $ | nindent 12 }}
+            {{- with .podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
         spec:
           restartPolicy: {{ default "Never" .restartPolicy }}
           imagePullSecrets:
