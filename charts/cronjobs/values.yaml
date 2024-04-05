@@ -96,7 +96,11 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+# Common annotations to add to all resources. Evaluated as a template
+commonAnnotations: {}
+
+# Common labels to add to all resources. Evaluated as a template
+commonLabels: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
