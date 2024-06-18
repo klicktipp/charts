@@ -201,6 +201,23 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/cronjobs-0.2.2/cronjobs-0.2.2.tgz
     version: 0.2.2
+  proxysql:
+  - apiVersion: v1
+    appVersion: 2.5.5
+    created: "2024-06-18T14:53:49.287085209Z"
+    description: ProxySQL Helm chart for Kubernetes
+    digest: 97459ed9aee5fdfec390904cc1d065dbdbd976f3299d58537d6eb29c8ebff8a9
+    home: https://www.proxysql.com/
+    maintainers:
+    - email: services@dysnix.com
+      name: Dysnix
+    name: proxysql
+    sources:
+    - https://github.com/dysnix/charts
+    - https://github.com/sysown/proxysql
+    urls:
+    - https://github.com/klicktipp/helm-charts/releases/download/proxysql-0.14.3/proxysql-0.14.3.tgz
+    version: 0.14.3
   redisinsight:
   - apiVersion: v2
     appVersion: 1.14.0
@@ -230,4 +247,4 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.2.0/redisinsight-0.2.0.tgz
     version: 0.2.0
-generated: "2024-05-22T10:00:18.539247727Z"
+generated: "2024-06-18T14:53:49.287113813Z"
