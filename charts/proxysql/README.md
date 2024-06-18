@@ -5,8 +5,8 @@
 ## TL;DR;
 
 ```bash
-$ helm repo add dysnix https://dysnix.github.io/charts/
-$ helm install my-release dysnix/proxysql
+$ helm repo add klicktipp https://klicktipp.github.io/helm-charts/
+$ helm install my-release klicktipp/proxysql
 ```
 
 ## Introduction
