@@ -204,6 +204,22 @@ entries:
   proxysql:
   - apiVersion: v1
     appVersion: 2.5.5
+    created: "2024-06-27T08:56:11.645374087Z"
+    description: ProxySQL Helm chart for Kubernetes
+    digest: 6852b54617264a821aee86cffba352bcd2b2395a1412ed93a73202fba08104ec
+    home: https://www.proxysql.com/
+    maintainers:
+    - email: services@dysnix.com
+      name: Dysnix
+    name: proxysql
+    sources:
+    - https://github.com/dysnix/charts
+    - https://github.com/sysown/proxysql
+    urls:
+    - https://github.com/klicktipp/helm-charts/releases/download/proxysql-1.1.0/proxysql-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: 2.5.5
     created: "2024-06-19T10:13:55.223211249Z"
     description: ProxySQL Helm chart for Kubernetes
     digest: 07fd69a34f1158f00f4bef41d122944d8caaa300ff8a332f46c1214b8c2b85ae
@@ -263,4 +279,4 @@ entries:
     urls:
     - https://github.com/klicktipp/helm-charts/releases/download/redisinsight-0.2.0/redisinsight-0.2.0.tgz
     version: 0.2.0
-generated: "2024-06-19T10:13:55.22324422Z"
+generated: "2024-06-27T08:56:11.645407319Z"
