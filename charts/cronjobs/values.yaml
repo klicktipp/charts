@@ -101,6 +101,20 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+rbac:
+  # Enable creation of Role/RoleBinding
+  create: true
+  # Annotations to add to the role and rolebinding
+  annotations: {}
+  # Rules for the role
+  rules: []
+    # - apiGroups: [""]
+    #   resources: ["pods", "pods/log"]
+    #   verbs: ["get", "list", "watch"]
+    # - apiGroups: ["batch"]
+    #   resources: ["jobs", "cronjobs"]
+    #   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
 # Common annotations to add to all resources. Evaluated as a template
 commonAnnotations: {}
 
