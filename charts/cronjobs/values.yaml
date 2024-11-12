@@ -102,7 +102,6 @@ serviceAccount:
   name: ""
 
 rbac:
-
   # Enable creation of Roles and Roles Binding
   create: false
 
